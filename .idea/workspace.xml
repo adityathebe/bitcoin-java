@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d13afeb8-b47a-465d-93bb-ae50f895d886" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZNd5LN6ZDzFxCQc6LWNik7I0JC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunManager" selected="Application.Secp256k1">
+    <configuration name="EllipticCurve" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.adityathebe.bitcoin.crypto.EllipticCurve" />
+      <module name="bitcoin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adityathebe.bitcoin.crypto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Secp256k1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.adityathebe.bitcoin.crypto.Secp256k1" />
+      <module name="bitcoin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adityathebe.bitcoin.crypto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Sha256" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.adityathebe.bitcoin.crypto.Sha256" />
+      <module name="bitcoin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adityathebe.bitcoin.crypto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Wallet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.adityathebe.bitcoin.wallet.Wallet" />
+      <module name="bitcoin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.adityathebe.bitcoin.wallet.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Secp256k1" />
+        <item itemvalue="Application.EllipticCurve" />
+        <item itemvalue="Application.Wallet" />
+        <item itemvalue="Application.Sha256" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d13afeb8-b47a-465d-93bb-ae50f895d886" name="Default Changelist" comment="" />
+      <created>1584683300757</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584683300757</updated>
+      <workItem from="1584683307381" duration="2620000" />
+      <workItem from="1584716159947" duration="2000" />
+      <workItem from="1584766827807" duration="9979000" />
+      <workItem from="1584794137144" duration="10331000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="721" y="209" key="#xdebugger.evaluate" timestamp="1584805166478">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="721" y="209" key="#xdebugger.evaluate/0.0.1920.1080@0.0.1920.1080" timestamp="1584805166478" />
+    <state width="1854" height="337" key="GridCell.Tab.0.bottom" timestamp="1584805401439">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584805401439" />
+    <state width="1854" height="337" key="GridCell.Tab.0.center" timestamp="1584805401438">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584805401438" />
+    <state width="1854" height="337" key="GridCell.Tab.0.left" timestamp="1584805401438">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584805401438" />
+    <state width="1854" height="337" key="GridCell.Tab.0.right" timestamp="1584805401439">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584805401439" />
+    <state width="1854" height="337" key="GridCell.Tab.1.bottom" timestamp="1584805332895">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1584805332895" />
+    <state width="1854" height="337" key="GridCell.Tab.1.center" timestamp="1584805332894">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1584805332894" />
+    <state width="1854" height="337" key="GridCell.Tab.1.left" timestamp="1584805332893">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1584805332893" />
+    <state width="1854" height="337" key="GridCell.Tab.1.right" timestamp="1584805332894">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1854" height="337" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1584805332894" />
+    <state x="496" y="216" key="Maven.ArtifactSearchDialog" timestamp="1584685151289">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="496" y="216" key="Maven.ArtifactSearchDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1584685151289" />
+    <state x="447" y="178" key="SettingsEditor" timestamp="1584794157106">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="447" y="178" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1584794157106" />
+    <state x="616" y="155" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584770154794">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="616" y="155" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1584770154794" />
+    <state x="622" y="256" key="run.anything.popup" timestamp="1584805175095">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="622" y="256" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1584805175095" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/adityathebe/bitcoin/crypto/Secp256k1.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/adityathebe/bitcoin/crypto/Secp256k1.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/adityathebe/bitcoin/crypto/Secp256k1.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
