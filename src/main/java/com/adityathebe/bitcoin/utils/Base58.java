@@ -1,11 +1,12 @@
 package com.adityathebe.bitcoin.utils;
-import java.math.BigInteger;
+
 import java.util.Arrays;
 
 public class Base58 {
     public static final char[] ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
     private static final char ENCODED_ZERO = ALPHABET[0];
     private static final int[] INDEXES = new int[128];
+
     static {
         Arrays.fill(INDEXES, -1);
         for (int i = 0; i < ALPHABET.length; i++) {
