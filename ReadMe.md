@@ -22,3 +22,6 @@
 - [Bitcoin Protocol Development Curriculum | Github](https://github.com/chaincodelabs/bitcoin-curriculum)
 - [Bitcoin Script Reference](https://en.bitcoin.it/wiki/Script)
 - [BitcoinJ](https://github.com/bitcoinj/bitcoinj)
+- [Dissecting raw bitcoin transaction](https://klmoney.wordpress.com/bitcoin-dissecting-transactions-part-2-building-a-transaction-by-hand/)
+- [A gentle introduction to EC Cryptography | Fang-Pen](https://fangpenlin.com/posts/2019/10/07/elliptic-curve-cryptography-explained/)
+- [ECDSA Online Playground](https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html)
