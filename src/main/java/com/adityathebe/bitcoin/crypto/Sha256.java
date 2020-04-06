@@ -13,4 +13,10 @@ public class Sha256 {
         byte[] digest = md.digest(bytes);
         return digest;
     }
+
+    public static byte[] getHash(byte[] bytes) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] digest = md.digest(bytes);
+        return digest;
+    }
 }

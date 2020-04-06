@@ -72,7 +72,6 @@ public class Wallet {
         try {
             secureRandom = SecureRandom.getInstance(RANDOM_NUMBER_ALGORITHM, RANDOM_NUMBER_ALGORITHM_PROVIDER);
         } catch (Exception e) {
-            System.out.println("SHIT");
             secureRandom = new SecureRandom();
         }
 
@@ -104,7 +103,7 @@ public class Wallet {
         String address = Utils.bytesToHex(addressByte);
         String mainNetworkAddress = "00" + address;
 
-        String doubleSha256 = Utils.bytesToHex(Sha256.getHash(Utils.bytesToHex(Sha256.getHash(mainNetworkAddress))));
+        String doubleSha256 = Utils.bytesToHex(Sha256.getHash(Sha256.getHash(mainNetworkAddress)));
         String checkSum = doubleSha256.substring(0, 8);
         String hexAddress = mainNetworkAddress + checkSum;
 
