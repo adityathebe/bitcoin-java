@@ -4,18 +4,18 @@ import com.adityathebe.bitcoin.crypto.ECDSA;
 import com.adityathebe.bitcoin.crypto.Sha256;
 import com.adityathebe.bitcoin.utils.Base58;
 import com.adityathebe.bitcoin.utils.Utils;
-import org.bouncycastle.asn1.sec.SECNamedCurves;
-import org.bouncycastle.asn1.x9.X9ECParameters;
-import org.bouncycastle.crypto.params.ECDomainParameters;
-import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
 
-import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.Security;
+
+import static com.adityathebe.bitcoin.utils.Utils.*;
 
 public class Wallet {
     private byte[] privateKey;
@@ -120,10 +120,31 @@ public class Wallet {
         return Wallet.genAddress(pubKeyStr);
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
+    public static void main(String[] args) throws Exception {
         String pk = "0ecd20654c2e2be708495853e8da35c664247040c00bd10b9b13e5e86e6a808d";
         Wallet w = new Wallet(pk);
         System.out.println(w.getPublicKeyHex());
         System.out.println(w.getUncompressed_address());
+
+        // Generate Signature
+        String transaction = "0100000001be66e10da854e7aea9338c1f91cd489768d1d6d7189f586d7a3613f2a24d5396000000001976a914dd6cce9f255a8cc17bda8ba0373df8e861cb866e88acffffffff0123ce0100000000001976a914a2fd2e039a86dbcf0e1a664729e09e8007f8951088ac0000000001000000";
+        byte[] doubleHash = Sha256.getHash(Sha256.getHash(transaction));
+        byte[] revDoubleHash = changeEndian(doubleHash);
+        byte[] signature = ECDSA.sign(Utils.hexToBytes(pk), revDoubleHash);
+        String finalSign = bytesToHex(signature) + "01";
+        System.out.println("Double Hash: " + bytesToHex(doubleHash));
+        System.out.println("Reverse Double Hash: " + bytesToHex(revDoubleHash));
+        System.out.println(finalSign);
+        System.out.println(finalSign.length());
+
+        // Verify Signature
+        boolean isValid = ECDSA.verify(signature, revDoubleHash, hexToBytes(w.getPublicKeyHex()));
+        System.out.println(isValid);
+
+        // Generate sigScript (unlocking script)
+        String sigLength = Integer.toHexString(finalSign.length() / 2);
+        String pubKeyLength = Integer.toHexString((w.getPublicKeyHex().length() / 2));
+        String sigScript = sigLength + finalSign + pubKeyLength + w.getPublicKeyHex();
+        System.out.println(sigScript);
     }
 }
