@@ -25,3 +25,8 @@
 - [Dissecting raw bitcoin transaction](https://klmoney.wordpress.com/bitcoin-dissecting-transactions-part-2-building-a-transaction-by-hand/)
 - [A gentle introduction to EC Cryptography | Fang-Pen](https://fangpenlin.com/posts/2019/10/07/elliptic-curve-cryptography-explained/)
 - [ECDSA Online Playground](https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html)
+
+### April 7
+
+- [Step by step process of creating a raw transaction](https://bitcoin.stackexchange.com/a/32695)
+- [Bitcoin the hard way: Using the raw Bitcoin protocol](http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html)

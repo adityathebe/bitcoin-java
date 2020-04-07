@@ -2,7 +2,7 @@ package com.adityathebe.bitcoin.script;
 
 public class ScriptOpCodes {
 
-    public static  final int OP_0 = 0x00;
+    public static final int OP_0 = 0x00;
     public static final int OP_PUSHDATA1 = 0x4c;
     public static final int OP_PUSHDATA2 = 0x4d;
     public static final int OP_PUSHDATA4 = 0x4e;

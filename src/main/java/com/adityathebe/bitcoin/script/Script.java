@@ -4,7 +4,6 @@ import com.adityathebe.bitcoin.utils.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.adityathebe.bitcoin.script.ScriptOpCodes.*;

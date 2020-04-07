@@ -19,7 +19,7 @@ import java.security.spec.ECParameterSpec;
 import java.security.spec.EllipticCurve;
 
 public class ECDSA {
-    private static PrivateKey privateKeyFromBytes(byte[] privateKey) throws Exception {
+    public static PrivateKey privateKeyFromBytes(byte[] privateKey) throws Exception {
         BigInteger s = new BigInteger(1, privateKey);
         ECNamedCurveParameterSpec ecParameterSpec = ECNamedCurveTable.getParameterSpec("SECP256K1");
         ECPrivateKeySpec ecPrivateKeySpec = new org.bouncycastle.jce.spec.ECPrivateKeySpec(s, ecParameterSpec);
@@ -28,7 +28,7 @@ public class ECDSA {
         return pk;
     }
 
-    private static PublicKey publicKeyFromBytes(byte[] pubKey) throws Exception {
+    public static PublicKey publicKeyFromBytes(byte[] pubKey) throws Exception {
         /* Source: https://stackoverflow.com/a/33347595/6199444 */
         ECNamedCurveParameterSpec params = ECNamedCurveTable.getParameterSpec("secp256k1");
         KeyFactory fact = KeyFactory.getInstance("ECDSA", "BC");
