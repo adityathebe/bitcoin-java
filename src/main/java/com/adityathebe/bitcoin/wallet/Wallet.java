@@ -1,18 +1,21 @@
 package com.adityathebe.bitcoin.wallet;
 
+import com.adityathebe.bitcoin.crypto.ECDSA;
 import com.adityathebe.bitcoin.crypto.Sha256;
 import com.adityathebe.bitcoin.utils.Base58;
 import com.adityathebe.bitcoin.utils.Utils;
+import org.bouncycastle.asn1.sec.SECNamedCurves;
+import org.bouncycastle.asn1.x9.X9ECParameters;
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
 
+import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.Security;
+import java.security.*;
 
 public class Wallet {
     private byte[] privateKey;
@@ -22,13 +25,11 @@ public class Wallet {
     private static final String RANDOM_NUMBER_ALGORITHM = "SHA1PRNG";
     private static final String RANDOM_NUMBER_ALGORITHM_PROVIDER = "SUN";
     public static final BigInteger MAX_PRIVATE_KEY = new BigInteger("00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140", 16);
+    private static final ECNamedCurveParameterSpec secp256k1Spec = ECNamedCurveTable.getParameterSpec("secp256k1");
+
 
     public byte[] getPrivateKey() {
         return privateKey;
-    }
-
-    public String getPrivateKeyHex() {
-        return new BigInteger(1, this.privateKey).toString(16);
     }
 
     public void setPrivateKey(byte[] privateKey) {
@@ -40,28 +41,25 @@ public class Wallet {
     }
 
     public String getPublicKeyHex() {
-        return "04" + this.publicKey.getXCoord().toString() + this.publicKey.getYCoord().toString();
-    }
-
-    public void setPublicKey(ECPoint publicKey) {
-        this.publicKey = publicKey;
+        ECPoint normPoint = publicKey.normalize();
+        return "04" + normPoint.getXCoord().toString() + normPoint.getYCoord().toString();
     }
 
     public String getUncompressed_address() {
         return uncompressed_address;
     }
 
-    public void setUncompressed_address(String uncompressed_address) {
-        this.uncompressed_address = uncompressed_address;
-    }
-
-    public Wallet() {
+    public Wallet(String privateKeyHex) throws NoSuchAlgorithmException {
+        privateKey = Utils.hexToBytes(privateKeyHex);
+        init();
     }
 
     public void init() throws NoSuchAlgorithmException {
-        this.privateKey = Wallet.genPrivateKey();
-        this.publicKey = Wallet.genPublicKey(this.privateKey);
-        this.uncompressed_address = Wallet.genAddress(this.publicKey);
+        if (this.privateKey == null) {
+            this.privateKey = genPrivateKey();
+        }
+        this.publicKey = genPublicKey(this.privateKey);
+        this.uncompressed_address = genAddress(this.publicKey);
     }
 
     /**
@@ -91,8 +89,14 @@ public class Wallet {
      * Converts a private key into its corresponding public key.
      */
     public static ECPoint genPublicKey(byte[] privateKey) {
-        ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("SECP256K1");
-        ECPoint pointQ = spec.getG().multiply(new BigInteger(1, privateKey));
+        BigInteger pk = new BigInteger(1, privateKey);
+        ECPoint pointQ = secp256k1Spec.getG().multiply(pk);
+        return pointQ;
+    }
+
+    public static ECPoint genPublicKey(String privateKeyHex) {
+        BigInteger pk = new BigInteger(privateKeyHex, 16);
+        ECPoint pointQ = secp256k1Spec.getG().multiply(pk);
         return pointQ;
     }
 
@@ -111,14 +115,14 @@ public class Wallet {
     }
 
     public static String genAddress(ECPoint pubKey) throws NoSuchAlgorithmException {
-        String pubKeyStr = "04" + pubKey.getXCoord().toString() + pubKey.getYCoord().toString();
+        String pubKeyStr =
+            "04" + pubKey.normalize().getXCoord().toString() + pubKey.normalize().getYCoord().toString();
         return Wallet.genAddress(pubKeyStr);
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        Wallet w = new Wallet();
-        w.init();
-        System.out.println(w.getPrivateKeyHex());
+        String pk = "0ecd20654c2e2be708495853e8da35c664247040c00bd10b9b13e5e86e6a808d";
+        Wallet w = new Wallet(pk);
         System.out.println(w.getPublicKeyHex());
         System.out.println(w.getUncompressed_address());
     }
