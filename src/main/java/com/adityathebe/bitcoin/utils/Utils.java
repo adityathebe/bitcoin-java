@@ -1,7 +1,12 @@
 package com.adityathebe.bitcoin.utils;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 public class Utils {
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    private static final BigInteger MAX_PRIVATE_KEY = new BigInteger("00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140", 16);
+
 
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
@@ -23,19 +28,6 @@ public class Utils {
         return b;
     }
 
-//    public static String bytesToHex(byte[] bytes) {
-//        return DatatypeConverter.printHexBinary(bytes);
-//    }
-//
-//    public static byte[] hexToBytes(String hex) {
-//        assert (hex.length() % 2 == 0);
-//        if (hex.length() % 2 != 0) {
-//            hex = "0" + hex;
-//        }
-//        return DatatypeConverter.parseHexBinary(hex);
-//    }
-
-
     public static byte[] changeEndian(byte[] bytes) {
         byte[] copy = new byte[bytes.length];
         for (int i = 0; i < bytes.length; i += 1) {
@@ -43,5 +35,29 @@ public class Utils {
             System.arraycopy(bytes, i, copy, destPos, 1);
         }
         return copy;
+    }
+
+
+    /**
+     * Generate a random private key that can be used with Secp256k1.
+     */
+    public static byte[] generateRandom256Bytes() {
+        SecureRandom secureRandom;
+        try {
+            secureRandom = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        } catch (Exception e) {
+            secureRandom = new SecureRandom();
+        }
+
+        // Generate the key, skipping as many as desired.
+        byte[] privateKeyAttempt = new byte[32];
+        secureRandom.nextBytes(privateKeyAttempt);
+        BigInteger privateKeyCheck = new BigInteger(1, privateKeyAttempt);
+        while (privateKeyCheck.compareTo(BigInteger.ZERO) == 0 || privateKeyCheck.compareTo(MAX_PRIVATE_KEY) == 1) {
+            secureRandom.nextBytes(privateKeyAttempt);
+            privateKeyCheck = new BigInteger(1, privateKeyAttempt);
+        }
+
+        return privateKeyAttempt;
     }
 }
