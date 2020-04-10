@@ -2,6 +2,10 @@ package com.adityathebe.bitcoin.crypto;
 
 
 import com.adityathebe.bitcoin.utils.Utils;
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ParametersWithRandom;
+import org.bouncycastle.crypto.signers.ECDSASigner;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.ECPointUtil;
@@ -14,6 +18,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.util.LinkedList;
 
 public class ECDSA {
     public static PrivateKey privateKeyFromBytes(byte[] privateKey) {
@@ -48,6 +53,8 @@ public class ECDSA {
      * Returns the signature in ASN1-DER
      */
     public static byte[] sign(byte[] privateKey, byte[] message) throws SignatureException, InvalidKeyException {
+        Security.addProvider(new BouncyCastleProvider());
+
         // Create Private Key Object
         PrivateKey pk = privateKeyFromBytes(privateKey);
 
@@ -58,7 +65,7 @@ public class ECDSA {
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
-        ecdsaSign.initSign(pk);
+        ecdsaSign.initSign(pk, new SecureRandom());
         ecdsaSign.update(message);
         return ecdsaSign.sign();
     }
@@ -74,11 +81,12 @@ public class ECDSA {
         return ecdsaVerify.verify(signature);
     }
 
+
     public static void main(String[] args) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
-        String privateKeyStr = "4a5b37137bf369b404be05735116ccefc171ab99a87835fa8bdb5916be3bbfab";
-        String pubKeyStr = "04a9aa2a30e8bf24bc667bbc4a9a5aaa4e3be1af7cb5c7a388a6f60a875b58f1d7c0abee1a88abd693841ad2f86f7f689b3c402ecf97e303b78ddaee13cfb075a3";
-        String message = "Aditya Thebe";
+        String privateKeyStr = "8f892dfe781e2337f3be08ab18f74bc7865f26fb8e6c52318feab05317029c46";
+        String pubKeyStr = "0473d034d4599e7e99ab5208eac411e91df0a024573487ec50f8ac88483fe45caec350ecbd5ef74d7f0b080d60173c57d50a0cb28da690ed68cec75a616be917cc";
+        String message = "aaa";
 
         // Sign
         byte[] sig = sign(Utils.hexToBytes(privateKeyStr), message.getBytes(StandardCharsets.UTF_8));

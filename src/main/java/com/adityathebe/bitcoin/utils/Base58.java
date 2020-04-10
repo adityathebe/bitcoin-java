@@ -2,6 +2,8 @@ package com.adityathebe.bitcoin.utils;
 
 import java.util.Arrays;
 
+import static com.adityathebe.bitcoin.crypto.Crypto.sha256;
+
 public class Base58 {
     public static final char[] ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
     private static final char ENCODED_ZERO = ALPHABET[0];
@@ -84,6 +86,20 @@ public class Base58 {
         }
         // Return decoded data (including original number of leading zeros).
         return Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length);
+    }
+
+    public static byte[] decodeChecked(String input) throws Exception {
+        byte[] tmp = decode(input);
+        byte[] checksum = new byte[4];
+        System.arraycopy(tmp, tmp.length - 4, checksum, 0, 4);
+        byte[] bytes = new byte[tmp.length - 4];
+        System.arraycopy(tmp, 0, bytes, 0, tmp.length - 4);
+        tmp = sha256(sha256(bytes));
+        byte[] hash = new byte[4];
+        System.arraycopy(tmp, 0, hash, 0, 4);
+        if (!Arrays.equals(hash, checksum))
+            throw new Exception("Checksum does not validate");
+        return bytes;
     }
 
     private static byte divmod(byte[] number, int firstDigit, int base, int divisor) {

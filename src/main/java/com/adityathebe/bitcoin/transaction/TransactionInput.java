@@ -1,6 +1,8 @@
 package com.adityathebe.bitcoin.transaction;
 
 public class TransactionInput {
+    public static final long NO_SEQUENCE = 0xFFFFFFFFL;
+
     /**
      * Hash of a past transaction
      */
@@ -12,18 +14,20 @@ public class TransactionInput {
      */
     Integer n;
 
-    /**
-     * length of the signature script field scriptSig in bytes
-     */
-    Integer scriptSigLen;
 
     /**
      * The unlocking script.
      * Response script corresponding to the challenge script.
      */
     String scriptSig;
+    Integer scriptSigLen;
 
-    public static final long nSequence = 0xFFFFFFFFL;
+    private long nSequence = NO_SEQUENCE;
+
+    public TransactionInput(TransactionOutput parenttx, int outputIndex) {
+        this.prevOut = parenttx;
+        this.n = outputIndex;
+    }
 
 
 }

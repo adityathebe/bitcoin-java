@@ -14,7 +14,6 @@
 - [Bitcoin Protocol Documentation](https://en.bitcoin.it/wiki/Protocol_documentation#tx)
 - [Bitcoin Transaction Details | Youtube](https://www.youtube.com/watch?v=f9nxuhLSyOg)
 
-
 ### April 6
 
 - [Grokking Bitcoin - Free Book](https://livebook.manning.com/book/grokking-bitcoin/chapter-1)
@@ -31,3 +30,19 @@
 - [Step by step process of creating a raw transaction](https://bitcoin.stackexchange.com/a/32695)
 - [Bitcoin the hard way: Using the raw Bitcoin protocol](http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html)
 - [Private Key to WIF | Interactive](https://gobittest.appspot.com/PrivateKey)
+- [Working with Transactions | BitcoinJ](https://bitcoinj.github.io/working-with-transactions)
+- [BitherJ | Lots of bitcoin utils implementation](https://github.com/bither/bitherj)
+
+### April 8
+
+- [Create Bitcoin address from compressed public key](https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses#How_to_create_Bitcoin_Address)
+- [List of Address Prefixes](https://en.bitcoin.it/wiki/List_of_address_prefixes)
+- [Public Key to HASH160 | Interactive](https://bitcoinprices.org/public-key-to-hash/)
+- [Testnet Decode Raw Tx](https://live.blockcypher.com/btc-testnet/decodetx/)
+- [Testnet Broadcast Raw Tx](https://live.blockcypher.com/btc-testnet/pushtx/)
+- [Testnet Block explorer](https://www.blockchain.com/search?search=https://live.blockcypher.com/btc-testnet/)
+
+### April 9
+
+- [Bitcoin Lesson | Transactions | Youtube](https://www.youtube.com/watch?v=Shd9nXe1X-0)
+- [Bitcoin Script IDE | Interactive](https://siminchen.github.io/bitcoinIDE/build/editor.html)
