@@ -1,6 +1,7 @@
 package com.adityathebe.bitcoin.wallet;
 
 import com.adityathebe.bitcoin.crypto.ECDSA;
+import com.adityathebe.bitcoin.crypto.ECDSASignature;
 import com.adityathebe.bitcoin.utils.Base58;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
@@ -144,23 +145,23 @@ public class Wallet {
      * @param satoshi Amount in Satoshi
      * @return The hex encoded transaction
      */
-    public String createTransaction(String address, int satoshi, String parentTxHash, String prevScriptPubKey) throws Exception {
+    public String createTransaction(String address, int satoshi, String parentTxHash, String inputIdx, String prevScriptPubKey) throws Exception {
         String nVersion = "01000000";
         String inCount = "01";
 
         // Input
         String prevOutHash = bytesToHex(changeEndian(hexToBytes(parentTxHash)));
-        String prevOutN = "00000000";
+        String prevOutN = inputIdx;
         String prevScriptPubKeyLength = Integer.toHexString(prevScriptPubKey.length() / 2);
         String sequence = "ffffffff";
 
         // Output
         String outCount = "01";
-        String amountHex = Integer.toHexString(satoshi);
-        while (amountHex.length() < 16) {
-            amountHex = "0" + amountHex;
+        String amount = Integer.toHexString(satoshi);
+        while (amount.length() < 16) {
+            amount = "0" + amount;
         }
-        String amount = bytesToHex(changeEndian(hexToBytes(amountHex)));
+        amount = bytesToHex(changeEndian(hexToBytes(amount)));
 
         // Finalize the output
         String hashFromAddress = getHashFromAddress(address);
@@ -175,15 +176,13 @@ public class Wallet {
         String preTxData = nVersion + inCount + prevOutHash + prevOutN + prevScriptPubKeyLength + prevScriptPubKey + sequence + outCount + amount + scriptPubKeyLength + scriptPubKey + lockField + hashCodeType;
         System.out.println("\nPreTxData: " + preTxData);
         byte[] doubleHash = hash256(preTxData);
-        byte[] signature = ECDSA.sign(privateKey, doubleHash);
-        String signatureHex = bytesToHex(signature) + "01";
-        System.out.println("Signature: " + signatureHex);
-        System.out.println("Verified: " + ECDSA.verify(signature, doubleHash, hexToBytes(getPublicKeyHex())));
+        ECDSASignature signature = ECDSA.sign(privateKey, doubleHash);
+        String finalSignature = signature.getDerEncoded() + "01";
 
         // Create actual scriptSig
-        String sigLength = Integer.toHexString(signatureHex.length() / 2);
+        String sigLength = Integer.toHexString(finalSignature.length() / 2);
         String pubKeyLength = Integer.toHexString((getPublicKeyHex().length() / 2));
-        String scriptSig = sigLength + signatureHex + pubKeyLength + getPublicKeyHex();
+        String scriptSig = sigLength + finalSignature + pubKeyLength + getPublicKeyHex();
         String scriptSigLength = Integer.toHexString(scriptSig.length() / 2);
 
         return nVersion + inCount + prevOutHash + prevOutN + scriptSigLength + scriptSig + sequence + outCount + amount + scriptPubKeyLength + scriptPubKey + lockField;
@@ -191,23 +190,24 @@ public class Wallet {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Wallet 1");
-        Wallet w = new Wallet("080BE07427F2DA803518329B24FB9BEA2890E26B8141AFEA840902DCD1ED6F09");
+        Wallet w = new Wallet("EF98EBA235358CBCFAB003B5A91606EA0A8B2B6EF60A6C0334E2C16F078A36EC");
         System.out.println("Private Key (Hex): " + bytesToHex(w.getPrivateKey()));
         System.out.println("Public Key (Hex): " + w.getPublicKeyHex());
         System.out.println("Address: " + w.getAddress());
 
         System.out.println("\nWallet 2");
-        Wallet w2 = new Wallet("2C414569FEE1D8356459AC512DC32D0E8F808E25B7C262E538D836FCC843FCC2");
+        Wallet w2 = new Wallet("CEED0892BCBC3F41DAAE1C7ADAADC3105A1B191B10378D76A40B0286B5F90095");
         System.out.println("Private Key (Hex): " + bytesToHex(w2.getPrivateKey()));
         System.out.println("Public Key (Hex): " + w2.getPublicKeyHex());
         System.out.println("Address: " + w2.getAddress());
 
         String tx = w2.createTransaction(
-            w.getAddress(),
-            400,
-            "ece2880671e7795568a8793437eac5809f4c47525a1814acde6f010fe12f0a28",
-            "76a914c974090512e9e5839ae332f9d5e7e4434212d79588ac");
-        System.out.println("Tx (Raw):" + tx.toLowerCase());
+            "2NGZrVvZG92qGYqzTLjCAewvPZ7JE8S8VxE",
+            9500,
+            "dcf994d82c6cb0fb8ad8388d916baaeccb441e0ad3c40f0cb0fd5172dfd05f8f",
+            "00000000",
+            "76a914774ef5069e2e0e0a2da4d36a2e9d1696c2c90f4488ac");
+        System.out.println("Tx (Raw):" + tx);
         System.out.println("Tx Hash: " + bytesToHex(changeEndian(hash256(tx))));
     }
 }

@@ -1,94 +1,47 @@
 package com.adityathebe.bitcoin.crypto;
 
-
-import com.adityathebe.bitcoin.utils.Utils;
-import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
+import com.adityathebe.bitcoin.wallet.Wallet;
 import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.ECPointUtil;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
-import org.bouncycastle.jce.spec.ECPrivateKeySpec;
-import org.bouncycastle.math.ec.ECCurve;
+import org.bouncycastle.math.ec.ECPoint;
 
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
+
 
 public class ECDSA {
-    public static PrivateKey privateKeyFromBytes(byte[] privateKey) {
-        try {
-            BigInteger s = new BigInteger(1, privateKey);
-            ECNamedCurveParameterSpec ecParameterSpec = ECNamedCurveTable.getParameterSpec("SECP256K1");
-            ECPrivateKeySpec ecPrivateKeySpec = new org.bouncycastle.jce.spec.ECPrivateKeySpec(s, ecParameterSpec);
-            KeyFactory factory = KeyFactory.getInstance("ECDSA", "BC");
-            return factory.generatePrivate(ecPrivateKeySpec);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
-            return null;
+    private static final BigInteger CURVE_N = ECNamedCurveTable.getParameterSpec("secp256k1").getN();
+    private static final ECPoint CURVE_G = ECNamedCurveTable.getParameterSpec("secp256k1").getG();
+
+    public static ECDSASignature sign(byte[] privateKey, byte[] hash) {
+        BigInteger z = new BigInteger(1, hash);
+        BigInteger e = new BigInteger(1, privateKey);
+
+        BigInteger r = BigInteger.ZERO;
+        BigInteger s = BigInteger.ZERO;
+
+        while (r.compareTo(BigInteger.ZERO) == 0 || s.compareTo(BigInteger.ZERO) == 0) {
+            BigInteger k = new BigInteger(1, Wallet.genPrivateKey());
+            BigInteger kInv = k.modInverse(CURVE_N);
+            org.bouncycastle.math.ec.ECPoint R = CURVE_G.multiply(k);
+            r = R.normalize().getXCoord().toBigInteger();
+            s = kInv.multiply(z.add(r.multiply(e))).mod(CURVE_N);
+            if (s.compareTo(CURVE_N.divide(BigInteger.valueOf(2L))) > 0) {
+                s = CURVE_N.subtract(s);
+            }
         }
+
+        return new ECDSASignature(r, s);
     }
 
-    public static PublicKey publicKeyFromBytes(byte[] pubKey) {
-        try {
-            /* Source: https://stackoverflow.com/a/33347595/6199444 */
-            ECNamedCurveParameterSpec params = ECNamedCurveTable.getParameterSpec("secp256k1");
-            KeyFactory fact = KeyFactory.getInstance("ECDSA", "BC");
-            ECCurve curve = params.getCurve();
-            java.security.spec.EllipticCurve ellipticCurve = EC5Util.convertCurve(curve, params.getSeed());
-            java.security.spec.ECPoint point = ECPointUtil.decodePoint(ellipticCurve, pubKey);
-            java.security.spec.ECParameterSpec params2 = EC5Util.convertSpec(ellipticCurve, params);
-            java.security.spec.ECPublicKeySpec keySpec = new java.security.spec.ECPublicKeySpec(point, params2);
-            return fact.generatePublic(keySpec);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Returns the signature in ASN1-DER
-     */
-    public static byte[] sign(byte[] privateKey, byte[] message) throws SignatureException, InvalidKeyException {
-        Security.addProvider(new BouncyCastleProvider());
-
-        // Create Private Key Object
-        PrivateKey pk = privateKeyFromBytes(privateKey);
-
-        // Sign the message
-        Signature ecdsaSign = null;
-        try {
-            ecdsaSign = Signature.getInstance("SHA256withECDSA");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        ecdsaSign.initSign(pk);
-        ecdsaSign.update(message);
-        return ecdsaSign.sign();
-    }
-
-    public static boolean verify(byte[] signature, byte[] message, byte[] pubKey) throws Exception {
-        // Create Public Key Object
-        PublicKey pk = publicKeyFromBytes(pubKey);
-
-        // Verify the message
-        Signature ecdsaVerify = Signature.getInstance("SHA256withECDSA", "BC");
-        ecdsaVerify.initVerify(pk);
-        ecdsaVerify.update(message);
-        return ecdsaVerify.verify(signature);
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        Security.addProvider(new BouncyCastleProvider());
-        String privateKeyStr = "8f892dfe781e2337f3be08ab18f74bc7865f26fb8e6c52318feab05317029c46";
-        String pubKeyStr = "0473d034d4599e7e99ab5208eac411e91df0a024573487ec50f8ac88483fe45caec350ecbd5ef74d7f0b080d60173c57d50a0cb28da690ed68cec75a616be917cc";
-        String message = "aaa";
-
-        // Sign
-        byte[] sig = sign(Utils.hexToBytes(privateKeyStr), message.getBytes(StandardCharsets.UTF_8));
-        System.out.println("Signature: " + Utils.bytesToHex(sig));
-
-        // Verify
-        boolean verified = verify(sig, message.getBytes(StandardCharsets.UTF_8), Utils.hexToBytes(pubKeyStr));
-        System.out.println("Verified: " + verified);
+    public static boolean verify(ECDSASignature signature, byte[] pubKey, byte[] hash) {
+        BigInteger r = signature.getR();
+        BigInteger s = signature.getS();
+        BigInteger z = new BigInteger(1, hash);
+        BigInteger sInv = s.modInverse(CURVE_N);
+        BigInteger u = z.multiply(sInv).mod(CURVE_N);
+        BigInteger v = r.multiply(sInv).mod(CURVE_N);
+        ECPoint uPoint = CURVE_G.multiply(u);
+        ECPoint vPoint = CURVE_G.multiply(u);
+        ECPoint sigPoint = uPoint.add(vPoint);
+        return r.compareTo(sigPoint.normalize().getXCoord().toBigInteger()) == 0;
     }
 }
