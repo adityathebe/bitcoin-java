@@ -177,6 +177,7 @@ public class Wallet {
         byte[] doubleHash = hash256(preTxData);
         byte[] signature = ECDSA.sign(privateKey, doubleHash);
         String signatureHex = bytesToHex(signature) + "01";
+        System.out.println("Signature: " + signatureHex);
         System.out.println("Verified: " + ECDSA.verify(signature, doubleHash, hexToBytes(getPublicKeyHex())));
 
         // Create actual scriptSig
@@ -189,12 +190,13 @@ public class Wallet {
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Wallet 1");
         Wallet w = new Wallet("080BE07427F2DA803518329B24FB9BEA2890E26B8141AFEA840902DCD1ED6F09");
         System.out.println("Private Key (Hex): " + bytesToHex(w.getPrivateKey()));
         System.out.println("Public Key (Hex): " + w.getPublicKeyHex());
         System.out.println("Address: " + w.getAddress());
 
-        System.out.println("\nWallet 2\n");
+        System.out.println("\nWallet 2");
         Wallet w2 = new Wallet("2C414569FEE1D8356459AC512DC32D0E8F808E25B7C262E538D836FCC843FCC2");
         System.out.println("Private Key (Hex): " + bytesToHex(w2.getPrivateKey()));
         System.out.println("Public Key (Hex): " + w2.getPublicKeyHex());
@@ -205,8 +207,7 @@ public class Wallet {
             400,
             "ece2880671e7795568a8793437eac5809f4c47525a1814acde6f010fe12f0a28",
             "76a914c974090512e9e5839ae332f9d5e7e4434212d79588ac");
-        System.out.println("\nTx (Raw):" + tx);
-
-        System.out.println("\nTx Hash: " + bytesToHex(changeEndian(hash256(tx))));
+        System.out.println("Tx (Raw):" + tx.toLowerCase());
+        System.out.println("Tx Hash: " + bytesToHex(changeEndian(hash256(tx))));
     }
 }

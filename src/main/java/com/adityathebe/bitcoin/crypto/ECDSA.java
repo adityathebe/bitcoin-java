@@ -2,10 +2,6 @@ package com.adityathebe.bitcoin.crypto;
 
 
 import com.adityathebe.bitcoin.utils.Utils;
-import org.bouncycastle.crypto.params.ECDomainParameters;
-import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
-import org.bouncycastle.crypto.params.ParametersWithRandom;
-import org.bouncycastle.crypto.signers.ECDSASigner;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.ECPointUtil;
@@ -18,7 +14,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.util.LinkedList;
 
 public class ECDSA {
     public static PrivateKey privateKeyFromBytes(byte[] privateKey) {
@@ -61,11 +56,11 @@ public class ECDSA {
         // Sign the message
         Signature ecdsaSign = null;
         try {
-            ecdsaSign = Signature.getInstance("SHA256withECDSA", "BC");
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            ecdsaSign = Signature.getInstance("SHA256withECDSA");
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        ecdsaSign.initSign(pk, new SecureRandom());
+        ecdsaSign.initSign(pk);
         ecdsaSign.update(message);
         return ecdsaSign.sign();
     }
