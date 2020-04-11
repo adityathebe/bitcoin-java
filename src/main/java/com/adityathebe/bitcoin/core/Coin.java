@@ -5,7 +5,7 @@ import static com.adityathebe.bitcoin.utils.Utils.*;
 public class Coin {
     private long value;
 
-    private Coin(final long satoshis) {
+    public Coin(long satoshis) {
         this.value = satoshis;
     }
 

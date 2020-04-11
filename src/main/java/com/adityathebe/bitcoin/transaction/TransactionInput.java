@@ -1,32 +1,21 @@
 package com.adityathebe.bitcoin.transaction;
 
 public class TransactionInput {
-    public static final long NO_SEQUENCE = 0xFFFFFFFFL;
+    public static final String NO_SEQUENCE = "FFFFFFFF";
 
-    /**
-     * Hash of a past transaction
-     */
-    String hash;
-    TransactionOutput prevOut;
+    private String txId;
+    private UTXO prevOut;
+    private Integer n;
 
-    /**
-     * Index of a transaction output within the transaction specified by hash.
-     */
-    Integer n;
+    private String scriptSig;
+    private Integer scriptSigLen;
 
+    private String nSequence;
 
-    /**
-     * The unlocking script.
-     * Response script corresponding to the challenge script.
-     */
-    String scriptSig;
-    Integer scriptSigLen;
-
-    private long nSequence = NO_SEQUENCE;
-
-    public TransactionInput(TransactionOutput parenttx, int outputIndex) {
-        this.prevOut = parenttx;
+    public TransactionInput(UTXO utxo, int outputIndex) {
+        this.prevOut = utxo;
         this.n = outputIndex;
+        this.nSequence = NO_SEQUENCE;
     }
 
 

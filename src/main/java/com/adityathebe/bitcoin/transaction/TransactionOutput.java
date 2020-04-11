@@ -5,11 +5,14 @@ import com.adityathebe.bitcoin.core.Coin;
 public class TransactionOutput {
     String scriptPubkey;
     Integer scriptPubkeyLen;
-    Coin coin;
+    String address;
 
-    TransactionOutput(String scriptPubkey, Coin coin) {
+    public TransactionOutput(String scriptPubkey) {
         this.scriptPubkey = scriptPubkey;
         this.scriptPubkeyLen = (int) Math.floor(scriptPubkey.length() / 2);
-        this.coin = coin;
+    }
+
+    public TransactionOutput(String recieverAddress, Coin c) {
+        address = recieverAddress;
     }
 }
